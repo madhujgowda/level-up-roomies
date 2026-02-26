@@ -1,0 +1,5 @@
+.dashboard-container { padding: 20px; font-family: sans-serif; }
+.points-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+.points-table th, .points-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+.points-table th { background-color: #f4f4f4; }
+tr:nth-child(even) { background-color: #fafafa; }

@@ -1,0 +1,22 @@
+<div class="dashboard-container">
+  <h2>Roommate Leaderboard 🏆</h2>
+  
+  <table class="points-table">
+    <thead>
+      <tr>
+        <th>Roommate</th>
+        <th>Dish Points 🧼</th>
+        <th>Cooking Points 🍳</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let r of roomies$ | async">
+        <td>{{ r.name }}</td>
+        <td>{{ r.dishPoints }}</td>
+        <td>{{ r.cookingPoints }}</td>
+        <td><strong>{{ r.dishPoints + r.cookingPoints }}</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
