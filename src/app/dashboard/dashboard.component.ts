@@ -15,6 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatChipsModule } from '@angular/material/chips';
+
 
 import { AuthService } from '../auth.service';
 
@@ -34,7 +36,8 @@ interface Roomie {
     MatTableModule,
     MatIconModule,
     MatDividerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatChipsModule
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',

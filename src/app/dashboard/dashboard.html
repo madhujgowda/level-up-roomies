@@ -1,7 +1,16 @@
 <div class="dashboard-container">
   <h2 class="mat-headline-small">Hello, {{ user?.displayName }}!</h2>
 
-  <table mat-table [dataSource]="(roomies$ | async) || []" class="mat-elevation-z8">
+  <mat-card class="leaderboard-card mat-elevation-z12" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title>Points Leaderboard</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-chip-set>
+      <mat-chip>Add Dish Points</mat-chip>
+      <mat-chip>Add Cooking Points</mat-chip>
+    </mat-chip-set>
+      <table mat-table [dataSource]="(roomies$ | async) || []" class="mat-elevation-z8">
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Roommate </th>
@@ -28,4 +37,8 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  </mat-card-content>
+</mat-card>
+
+
 </div>
