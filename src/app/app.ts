@@ -9,8 +9,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 
+
 import { Auth, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { User } from '@angular/fire/auth';
+
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -35,7 +40,10 @@ export class App {
 
   showNav = false;
 
-  constructor() {
+  user$: Observable<User | null>;
+
+  constructor(public authService: AuthService) {
+    this.user$ = this.authService.user$;
     // Listen to route changes
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
