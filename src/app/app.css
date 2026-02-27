@@ -1,0 +1,37 @@
+/* src/styles.css */
+html, body { height: 100%; }
+body { margin: 0;}
+
+.sidenav-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 250px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar{
+    color: var(--mat-sys-primary);
+}
+
+.main-content {
+  padding: 20px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.mat-sidenav-content .mat-toolbar {
+box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+z-index: 2000; 
+}
+
+.mat-sidenav {
+box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+z-index: 1000; 
+}

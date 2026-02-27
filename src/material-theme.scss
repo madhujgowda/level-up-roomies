@@ -1,0 +1,22 @@
+@use '@angular/material' as mat;
+
+html {
+  color-scheme: light;
+  @include mat.theme((
+    color: mat.$rose-palette,
+    typography: Roboto,
+    density: 0
+  ));
+}
+
+:root {
+  @include mat.toolbar-overrides((
+    container-background-color: var(--mat-sys-primary-container),
+    container-text-color: var(--mat-sys-secondary),
+  ));
+
+  @include mat.sidenav-overrides((
+    container-text-color: var(--mat-sys-primary),
+    content-text-color: var(--mat-sys-primary),
+  ));
+}
