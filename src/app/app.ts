@@ -1,4 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map } from 'rxjs/operators';
 import { RouterOutlet, RouterLink, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators'; 
@@ -40,9 +42,16 @@ export class App {
 
   showNav = false;
 
+  // true when viewport is handset sized; used to switch sidenav mode
+  isHandset$!: import('rxjs').Observable<boolean>;
+
   user$: Observable<User | null>;
 
-  constructor(public authService: AuthService) {
+  constructor(public authService: AuthService,
+              private breakpoint: BreakpointObserver) {
+    // assign after breakpoint has been injected
+    this.isHandset$ = this.breakpoint.observe(Breakpoints.Handset)
+      .pipe(map(result => result.matches));
     this.user$ = this.authService.user$;
     // Listen to route changes
     this.router.events.pipe(

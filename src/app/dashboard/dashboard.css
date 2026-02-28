@@ -8,15 +8,27 @@
   flex: 1 1 auto;
 }
 
+/* allow the table to scroll horizontally on narrow viewports.  The
+   wrapper .table-responsive handles the overflow; the table itself stays
+   display:table so it can stretch to 100% width on larger screens. */
 table {
-  width: auto;
+  width: 100%;          /* let table expand to container width */
   margin-top: 20px;
+  /* no display:block here – keep native table behavior */
 }
 
 .leaderboard-card {
-  width: auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .leaderboard-card-footer {
   padding: 16px;
+}
+
+/* scrolling wrapper used in dashboard.html */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
