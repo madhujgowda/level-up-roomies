@@ -16,7 +16,9 @@ import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 
 // Services
 import { AuthService } from '../../services/auth/auth.service';
-import { RoomiesService, Roomie } from '../../services/roomies/roomies.service'; // Import Service and Interface
+import { RoomiesService } from '../../services/roomies/roomies.service'; 
+
+import { Roomie } from '../../models/roomie.model';
 
 @Component({
   selector: 'app-dashboard',

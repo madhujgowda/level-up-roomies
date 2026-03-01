@@ -3,11 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-export interface Roomie {
-  name: string;
-  dishCleaningPoints: number;
-  cookingPoints: number;
-}
+import { Roomie } from '../../models/roomie.model';
 
 @Injectable({
   providedIn: 'root',
