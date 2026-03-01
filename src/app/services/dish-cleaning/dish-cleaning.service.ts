@@ -20,18 +20,20 @@ export class DishCleaningService {
     // Ordering by createdDate descending to get newest first
     const q = query(recordsRef, orderBy('createdDate', 'desc')); 
 
+    const records$ = collectionData(q, { idField: 'id' });
+
     return combineLatest([
-      collectionData(q, { idField: 'id' }),
+      records$,
       this.roomiesService.roomies$ 
     ]).pipe(
-      filter(([records, roomies]) => roomies.length > 0),
       map(([records, roomies]) => {
         return records.map(record => {
-          const user = roomies.find(roomie => roomie.id === record['uid']);
-        
+          const user = roomies.find(r => r.id === record['uid']);
+          
           return {
             ...record,
-            userName: user ? user.name : 'Unknown',
+            // Fallback to 'Loading...' if roomies aren't loaded yet
+            userName: user ? user.name : 'Loading...', 
           };
         });
       })
