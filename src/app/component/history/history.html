@@ -1,0 +1,28 @@
+<mat-tab-group>
+  <mat-tab label="Dish Cleaning">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      
+      <ng-container matColumnDef="userName">
+        <th mat-header-cell *matHeaderCellDef> Roomie </th>
+        <td mat-cell *matCellDef="let element"> {{element.userName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cleanedDate">
+        <th mat-header-cell *matHeaderCellDef> Date Cleaned </th>
+        <td mat-cell *matCellDef="let element"> {{element.cleanedDate.toDate() | date:'MM/dd/yyyy'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="previousPoints">
+        <th mat-header-cell *matHeaderCellDef> Points Before </th>
+        <td mat-cell *matCellDef="let element"> {{element.previousPoints}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-tab>
+
+  <mat-tab label="Cooking">
+    <p>Cooking history coming soon...</p>
+  </mat-tab>
+</mat-tab-group>
