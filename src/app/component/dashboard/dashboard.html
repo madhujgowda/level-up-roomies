@@ -6,10 +6,10 @@
             <mat-card-title>Points Leaderboard</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <mat-chip-set>
-                <mat-chip>Add Dish Points</mat-chip>
-                <mat-chip>Add Cooking Points</mat-chip>
-            </mat-chip-set>
+            <div class="example-button-row">
+                <button mat-stroked-button routerLink="/add-dish-cleaning">Add Dish Cleaning</button>
+                <button mat-stroked-button routerLink="/add-cooking">Add Cooking</button>
+            </div>
             <div class="table-responsive">
                 <!-- horizontal scroll wrapper for small devices -->
                 <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
@@ -20,17 +20,17 @@
                         </th>
                         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                     </ng-container>
-                    <ng-container matColumnDef="dishPoints">
+                    <ng-container matColumnDef="dishCleaningPoints">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header
-                            sortActionDescription="Sort by dishPoints">
-                            Dish Points
+                            sortActionDescription="Sort by dishCleaningPoints">
+                            Dish Cleaning
                         </th>
-                        <td mat-cell *matCellDef="let element"> {{element.dishPoints}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.dishCleaningPoints}} </td>
                     </ng-container>
                     <ng-container matColumnDef="cookingPoints">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header
                             sortActionDescription="Sort by cookingPoints">
-                            Cooking Points
+                            Cooking
                         </th>
                         <td mat-cell *matCellDef="let element"> {{element.cookingPoints}} </td>
                     </ng-container>
@@ -38,7 +38,8 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by total">
                             Total Points
                         </th>
-                        <td mat-cell *matCellDef="let element"> {{element.dishPoints + element.cookingPoints}} </td>
+                        <td mat-cell *matCellDef="let element"> {{element.dishCleaningPoints + element.cookingPoints}}
+                        </td>
                     </ng-container>
 
 

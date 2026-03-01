@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { Auth, signOut } from '@angular/fire/auth';
@@ -22,11 +22,11 @@ import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 
 
 
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 interface Roomie {
   name: string;
-  dishPoints: number;
+  dishCleaningPoints: number;
   cookingPoints: number;
 }
 
@@ -34,6 +34,7 @@ interface Roomie {
     selector: 'app-dashboard',
     imports: [
       CommonModule,
+      RouterLink,
       MatCardModule,
       MatButtonModule,
       MatToolbarModule,
@@ -55,7 +56,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   user: User | null = null;
   roomies$!: any;
 
-  displayedColumns: string[] = ['name', 'dishPoints', 'cookingPoints', 'total'];
+  displayedColumns: string[] = ['name', 'dishCleaningPoints', 'cookingPoints', 'total'];
 
   constructor(private authService: AuthService) { }
 
@@ -89,7 +90,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       // Provide a custom accessor for sorting computed 'total' column.
       this.dataSource.sortingDataAccessor = (item: Roomie, property: string) => {
         if (property === 'total') {
-          return (item.dishPoints || 0) + (item.cookingPoints || 0);
+          return (item.dishCleaningPoints || 0) + (item.cookingPoints || 0);
         }
         // default behavior: return the property value
         // @ts-ignore - index access for dynamic property

@@ -32,3 +32,11 @@ table {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
+section {
+  display: flex;
+  align-items: center;
+}
+.example-button-row {
+  max-width: 600px;
+}
+
