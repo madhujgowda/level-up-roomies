@@ -1,6 +1,8 @@
 import { Injectable, inject } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { Firestore, collection, doc, writeBatch, Timestamp } from '@angular/fire/firestore';
+import { Firestore, collection, doc, writeBatch, orderBy, collectionData, query, deleteDoc } from '@angular/fire/firestore';
 
 import { CookingRecord } from '../../models/cooking-record.model';
 import { Chef } from '../../models/chef.model';
@@ -13,6 +15,31 @@ import { RoomiesService } from '../roomies/roomies.service';
 export class CookingService {
   private firestore = inject(Firestore);
   private roomiesService = inject(RoomiesService);
+
+  getAllRecords(): Observable<any[]> {
+    const recordsRef = collection(this.firestore, 'history', 'cooking', 'records');
+    const q = query(recordsRef, orderBy('createdDate', 'desc'));
+
+    return combineLatest([
+      collectionData(q, { idField: 'id' }),
+      this.roomiesService.roomies$ 
+    ]).pipe(
+      map(([records, roomies]) => {
+        return records.map(record => {
+          const mappedChefs = record['chefs'].map((chef: any) => ({
+            ...chef,
+            name: roomies.find(r => r.id === chef.uid)?.name || 'Unknown'
+          }));
+
+          return {
+            ...record,
+            chefs: mappedChefs,
+            cookedDate: record['cookedDate']?.toDate()
+          };
+        });
+      })
+    );
+  }
 
   async addCookingRecord(dishType: string, cookedDate: Date, chefsInput: { uid: string, points: number }[]): Promise<void> {
     
@@ -49,5 +76,11 @@ export class CookingService {
 
     await batch.commit();
     console.log('Cooking record added and points updated!');
+  }
+
+  async deleteRecord(id: string): Promise<void> {
+    const docRef = doc(this.firestore, 'history', 'cooking', 'records', id);
+    await deleteDoc(docRef);
+    console.log('Record deleted');
   }
 }
