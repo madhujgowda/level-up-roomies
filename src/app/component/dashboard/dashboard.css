@@ -4,6 +4,10 @@
   margin: 0 auto;
 }
 
+mat-card-content{
+  margin-top: 10px;
+}
+
 .spacer {
   flex: 1 1 auto;
 }
@@ -36,7 +40,7 @@ section {
   display: flex;
   align-items: center;
 }
-.example-button-row {
+.action-button-row {
   max-width: 600px;
 }
 
