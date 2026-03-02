@@ -1,0 +1,58 @@
+<div class="container">
+    <mat-card class="add-dish-cleaning-card mat-elevation-z12" appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>Add Cooking</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <form [formGroup]="cookingForm" (ngSubmit)="onSubmit()">
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Dish Type</mat-label>
+                    <input matInput formControlName="dishType" placeholder="e.g. Curry">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Date Cooked</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="cookedDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+                <p>Chefs</p>
+                <div formArrayName="chefs">
+                    <div *ngFor="let chef of chefs.controls; let i = index" [formGroupName]="i" class="chef-row">
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Roomie</mat-label>
+                            <mat-select formControlName="uid">
+                                <mat-option *ngFor="let r of roomies" [value]="r.id">{{r.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="points-field">
+                            <mat-label>Points</mat-label>
+                            <input matInput type="number" formControlName="points">
+                        </mat-form-field>
+
+                        <button mat-icon-button color="warn" type="button" (click)="removeChef(i)"
+                            *ngIf="chefs.length > 1">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+
+                <button mat-button type="button" (click)="addChef()" *ngIf="chefs.length < roomies.length" color="primary">
+                    <mat-icon>add</mat-icon> Add Another Chef
+                </button>
+
+                <div class="submit-row">
+                    <button mat-button routerLink="/dashboard">Cancel</button>
+                    <button mat-flat-button color="primary" type="submit" [disabled]="!cookingForm.valid">
+                        Save Record
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

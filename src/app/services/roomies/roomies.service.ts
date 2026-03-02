@@ -28,4 +28,8 @@ export class RoomiesService {
   getRoomies() {
     return this.roomiesSubject.getValue();
   }
+
+  getRoomie(uid: string): Roomie | undefined {
+    return this.roomiesSubject.getValue().find(r => r.id === uid);
+  }
 }

@@ -1,0 +1,28 @@
+.container {
+    padding: 2px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+mat-card-content {
+    margin-top: 10px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.chef-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.points-field {
+  width: 100px;
+}
+
+.submit-row {
+  margin-top: 20px;
+  text-align: right;
+}
