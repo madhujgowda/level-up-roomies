@@ -1,0 +1,45 @@
+.sheet-container {
+    padding: 16px;
+}
+
+.sheet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.primary-text {
+    color: var(--mat-sys-primary) !important;
+}
+
+.chef-card {
+    margin-bottom: 10px;
+}
+
+.chefs-list {
+    margin-top: 10px;
+}
+
+.action-row {
+    margin-top: 20px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.new-total {
+    font-weight: bold;
+    color: #3f51b5;
+}
+
+.previous-points {
+    color: #666;
+    font-size: 0.9em;
+}
+
+h2,
+h3,
+p {
+    font-family: Roboto;
+}

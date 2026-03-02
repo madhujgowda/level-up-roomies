@@ -1,0 +1,41 @@
+<div class="sheet-container">
+    <div class="sheet-header">
+        <h3 class="primary-text">Cooking Details</h3>
+        <button mat-icon-button (click)="close()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <mat-list>
+        <mat-list-item>
+            <mat-icon matListItemIcon>restaurant</mat-icon>
+            <div matListItemTitle>Dish Type</div>
+            <div matListItemLine>{{ data.dishType }}</div>
+        </mat-list-item>
+
+        <mat-list-item>
+            <mat-icon matListItemIcon>calendar_today</mat-icon>
+            <div matListItemTitle>{{ data.cookedDate | date:'fullDate' }}</div>
+            <div matListItemLine>Date Cooked</div>
+        </mat-list-item>
+    </mat-list>
+
+    <mat-divider></mat-divider>
+
+    <h4 class="primary-text">Chefs Involved</h4>
+    <div class="chefs-list">
+        <mat-card class="add-dish-cleaning-card mat-elevation-z12" appearance="outlined" *ngFor="let chef of data.chefs" class="chef-card">
+            <mat-card-content>
+                <strong>{{ chef.name }}</strong>
+                <p>Earned: {{ chef.pointsEarned }}</p>
+                <p class="previous-points">Previous: {{ chef.previousPoints }}</p>
+                <p class="new-total primary-text">New Total: {{ chef.previousPoints + chef.pointsEarned }}</p>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div class="action-row">
+        <button mat-flat-button color="primary" (click)="close()" class="full-width">
+            Close
+        </button>
+    </div>
+</div>

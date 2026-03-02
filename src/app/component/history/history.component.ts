@@ -6,12 +6,15 @@ import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 import { DishCleaningService } from '../../services/dish-cleaning/dish-cleaning.service';
 import { CookingService } from '../../services/cooking/cooking.service';
 
 import { DishCleaningRecord } from '../../models/dish-cleaning-record.model';
 import { CookingRecord } from '../../models/cooking-record.model';
+
+import { CookingDetailSheetComponent } from '../cooking-detail-sheet/cooking-detail-sheet.component';
 
 @Component({
   selector: 'app-history',
@@ -27,6 +30,7 @@ import { CookingRecord } from '../../models/cooking-record.model';
 })
 export class HistoryComponent implements OnInit{
   private changeDetector = inject(ChangeDetectorRef);
+  private bottomSheet = inject(MatBottomSheet);
 
   displayedDishColumns: string[] = ['userName', 'cleanedDate', 'previousPoints'];
   dataSourceDishes = new MatTableDataSource<DishCleaningRecord>([]);
@@ -73,6 +77,12 @@ export class HistoryComponent implements OnInit{
       for (const record of toDelete) {
         if (record.id) this.cookingService.deleteRecord(record.id);
       }
+    });
+  }
+
+  openDetailSheet(record: any) {
+    this.bottomSheet.open(CookingDetailSheetComponent, {
+      data: record 
     });
   }
 }

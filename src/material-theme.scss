@@ -1,12 +1,16 @@
 @use '@angular/material' as mat;
 
+$my-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$rose-palette,
+    tertiary: mat.$rose-palette,
+  ),
+));
+
 html {
-  color-scheme: light;
-  @include mat.theme((
-    color: mat.$rose-palette,
-    typography: Roboto,
-    density: 0
-  ));
+  @include mat.all-component-themes($my-theme);
+  @include mat.system-level-colors($my-theme);
 }
 
 :root {
