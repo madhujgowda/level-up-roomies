@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -41,6 +41,7 @@ import { Roomie } from '../../models/roomie.model';
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
   private _liveAnnouncer = inject(LiveAnnouncer);
+  private changeDetector = inject(ChangeDetectorRef);
   
   private roomiesService = inject(RoomiesService);
   private authService = inject(AuthService);
@@ -54,6 +55,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.authService.user$.subscribe(user => {
       this.user = user;
+      this.changeDetector.detectChanges();
     });
 
     this.roomiesService.roomies$.subscribe((roomies: Roomie[]) => {
