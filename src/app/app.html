@@ -14,9 +14,21 @@
                     <mat-icon matListItemIcon>history</mat-icon>
                     <span matListItemTitle>History</span>
                 </a>
+                <a mat-list-item routerLink="/weekly-cleaning" (click)="drawer.toggle()">
+                    <mat-icon matListItemIcon>date_range</mat-icon>
+                    <span matListItemTitle>Weekly Cleaning</span>
+                </a>
                 <a mat-list-item routerLink="/groceries" (click)="drawer.toggle()">
                     <mat-icon matListItemIcon>shopping_cart</mat-icon>
                     <span matListItemTitle>Grocery List</span>
+                </a>
+                <a mat-list-item routerLink="/inventory" (click)="drawer.toggle()">
+                    <mat-icon matListItemIcon>shelves</mat-icon>
+                    <span matListItemTitle>Inventory</span>
+                </a>
+                <a mat-list-item routerLink="/settings" (click)="drawer.toggle()">
+                    <mat-icon matListItemIcon>settings</mat-icon>
+                    <span matListItemTitle>Settings</span>
                 </a>
             </mat-nav-list>
         </mat-sidenav>
