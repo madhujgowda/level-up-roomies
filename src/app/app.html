@@ -1,9 +1,8 @@
 <div *ngIf="showNav; else simpleLayout">
     <mat-sidenav-container class="sidenav-container">
 
-        <mat-sidenav #drawer class="sidenav"
-                    [mode]="(isHandset$ | async) ? 'over' : 'side'"
-                    [opened]="!(isHandset$ | async)">
+        <mat-sidenav #drawer class="sidenav" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+            [opened]="!(isHandset$ | async)">
             <mat-toolbar>Menu</mat-toolbar>
             <mat-nav-list>
                 <a mat-list-item routerLink="/dashboard" (click)="drawer.toggle()">
@@ -25,6 +24,10 @@
                 <a mat-list-item routerLink="/inventory" (click)="drawer.toggle()">
                     <mat-icon matListItemIcon>shelves</mat-icon>
                     <span matListItemTitle>Inventory</span>
+                </a>
+                <a mat-list-item routerLink="/cooking-notes" (click)="drawer.toggle()">
+                    <mat-icon matListItemIcon>content_paste</mat-icon>
+                    <span matListItemTitle>Cooking Notes</span>
                 </a>
                 <a mat-list-item routerLink="/settings" (click)="drawer.toggle()">
                     <mat-icon matListItemIcon>settings</mat-icon>
@@ -53,5 +56,5 @@
 </div>
 
 <ng-template #simpleLayout>
-  <router-outlet></router-outlet>
+    <router-outlet></router-outlet>
 </ng-template>
