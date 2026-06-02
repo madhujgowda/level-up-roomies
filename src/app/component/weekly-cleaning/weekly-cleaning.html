@@ -3,7 +3,7 @@
     <mat-expansion-panel-header>
       <mat-panel-title> Upcoming Week </mat-panel-title>
       <mat-panel-description>
-        {{ upcomingStartDate | date: 'MMM d, yyyy' }} - {{ upcomingEndDate | date: 'MMM d, yyyy' }}
+        {{ upcomingStartDate | date: 'MMM d' }} - {{ upcomingEndDate | date: 'MMM d' }}
       </mat-panel-description>
     </mat-expansion-panel-header>
     <table mat-table [dataSource]="dataSourceUpcomingWeek" class="mat-elevation-z8">
@@ -25,7 +25,7 @@
     <mat-expansion-panel-header>
       <mat-panel-title> Current Week </mat-panel-title>
       <mat-panel-description>
-        {{ currentStartDate | date: 'MMM d, yyyy' }} - {{ currentEndDate | date: 'MMM d, yyyy' }}
+        {{ currentStartDate | date: 'MMM d' }} - {{ currentEndDate | date: 'MMM d' }}
       </mat-panel-description>
     </mat-expansion-panel-header>
     <table mat-table [dataSource]="dataSourceCurrentWeek" class="mat-elevation-z8">
@@ -62,7 +62,7 @@
     <mat-expansion-panel-header>
       <mat-panel-title> Previous Week </mat-panel-title>
       <mat-panel-description>
-        {{ previousStartDate | date: 'MMM d, yyyy' }} - {{ previousEndDate | date: 'MMM d, yyyy' }}
+        {{ previousStartDate | date: 'MMM d' }} - {{ previousEndDate | date: 'MMM d' }}
       </mat-panel-description>
     </mat-expansion-panel-header>
     <table mat-table [dataSource]="dataSourcePreviousWeek" class="mat-elevation-z8">
