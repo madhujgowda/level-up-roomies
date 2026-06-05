@@ -30,12 +30,6 @@ table {
   padding: 16px;
 }
 
-/* scrolling wrapper used in dashboard.html */
-.table-responsive {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
 section {
   display: flex;
   align-items: center;

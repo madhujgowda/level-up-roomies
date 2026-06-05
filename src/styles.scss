@@ -6,3 +6,10 @@ body {
 h2, h3, p {
   font-family: Roboto;
 }
+
+/* scrolling wrapper used in dashboard.html */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
