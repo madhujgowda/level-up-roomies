@@ -108,7 +108,7 @@ export class WeeklyCleaningComponent implements OnInit {
   async markAsDone(docId: string, taskName: string) {
     console.log(`Marking task as done: docId=${docId}, taskName=${taskName}`);
     try {
-      await this.weeklyCleaningService.markAsDone(docId, taskName);
+      await this.weeklyCleaningService.updateTaskStatus(docId, taskName);
     } catch (error) {
       console.error('Error marking task as done:', error);
     }

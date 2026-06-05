@@ -52,7 +52,7 @@ export class WeeklyCleaningService {
         )
     }
 
-    async markAsDone(docId: string, taskName: string) {
+    async updateTaskStatus(docId: string, taskName: string) {
         try {
             // 1. Reference the specific document in 'weeklyCleaning'
             const docRef = doc(this.firestore, 'weeklyCleaning', docId);
