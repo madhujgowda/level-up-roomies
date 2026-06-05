@@ -28,7 +28,10 @@ export class WeeklyCleaningComponent implements OnInit {
   dataSourceCurrentWeek = new MatTableDataSource<WeeklyCleaningRecord>([]);
   dataSourceUpcomingWeek = new MatTableDataSource<WeeklyCleaningRecord>([]);
   dataSourcePreviousWeek = new MatTableDataSource<WeeklyCleaningRecord>([]);
-  
+
+  currentWeekRecordId: string = "";
+  previousWeekRecordId: string = "";
+
   currentStartDate: Date | null = null;
   currentEndDate: Date | null = null;
   upcomingStartDate: Date | null = null;
@@ -43,6 +46,7 @@ export class WeeklyCleaningComponent implements OnInit {
       const categorizedRecords = this.categorizeFirestoreWeeklyRecords(records);
       categorizedRecords.filter(r => r.category === 'Current Week').map(r => {
         this.dataSourceCurrentWeek.data = r.assignedTasks;
+        this.currentWeekRecordId = r.id || null;
         this.currentStartDate = r.startDate.toDate();
         this.currentEndDate = r.endDate.toDate();
         this.changeDetector.detectChanges();
@@ -55,11 +59,12 @@ export class WeeklyCleaningComponent implements OnInit {
       });
       categorizedRecords.filter(r => r.category === 'Previous Week').map(r => {
         this.dataSourcePreviousWeek.data = r.assignedTasks;
+        this.previousWeekRecordId = r.id || null;
         this.previousStartDate = r.startDate.toDate();
         this.previousEndDate = r.endDate.toDate();
         this.changeDetector.detectChanges();
       });
-      
+
     });
   }
 
@@ -98,5 +103,14 @@ export class WeeklyCleaningComponent implements OnInit {
 
       return { ...record, category };
     });
+  }
+
+  async markAsDone(docId: string, taskName: string) {
+    console.log(`Marking task as done: docId=${docId}, taskName=${taskName}`);
+    try {
+      await this.weeklyCleaningService.markAsDone(docId, taskName);
+    } catch (error) {
+      console.error('Error marking task as done:', error);
+    }
   }
 }

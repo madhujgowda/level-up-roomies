@@ -49,7 +49,7 @@
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
             <div class="action-button-row">
-              <button mat-stroked-button>
+              <button mat-stroked-button (click)="markAsDone(currentWeekRecordId, element.task)">
                 <mat-icon>check</mat-icon>
                 Mark as Done
               </button>
@@ -90,7 +90,7 @@
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
             <div class="action-button-row">
-              <button mat-stroked-button>
+              <button mat-stroked-button (click)="markAsDone(previousWeekRecordId, element.task)">
                 <mat-icon>check</mat-icon>
                 Mark as Done
               </button>
