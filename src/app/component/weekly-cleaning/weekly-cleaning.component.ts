@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { Auth } from '@angular/fire/auth';
 
 import { WeeklyCleaningService } from '../../services/weekly-cleaning/weekly-cleaning.service';
 import { WeeklyCleaningRecord } from '../../models/weekly-cleaning-record.model';
@@ -12,6 +14,7 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-weekly-cleaning',
   imports: [
+    CommonModule,
     MatExpansionModule,
     MatButtonModule,
     MatTableModule,
@@ -22,6 +25,8 @@ import { DatePipe } from '@angular/common';
   styleUrl: './weekly-cleaning.css',
 })
 export class WeeklyCleaningComponent implements OnInit {
+  currentUserId: string | undefined = undefined;
+  
   displayedUpcomingAssignedTasksColumns: string[] = ['uid', 'task'];
   displayedAssignedTasksColumns: string[] = ['uid', 'task', 'status', 'action'];
 
@@ -39,9 +44,11 @@ export class WeeklyCleaningComponent implements OnInit {
   previousStartDate: Date | null = null;
   previousEndDate: Date | null = null;
 
-  constructor(private weeklyCleaningService: WeeklyCleaningService, private changeDetector: ChangeDetectorRef) { }
+  constructor(private weeklyCleaningService: WeeklyCleaningService, private changeDetector: ChangeDetectorRef, private auth: Auth) { }
 
   ngOnInit(): void {
+    this.currentUserId = this.auth.currentUser?.uid;
+
     this.weeklyCleaningService.getAllRecords().subscribe((records) => {
       const categorizedRecords = this.categorizeFirestoreWeeklyRecords(records);
       categorizedRecords.filter(r => r.category === 'Current Week').map(r => {

@@ -51,6 +51,7 @@
             <div class="action-button-row">
               <button
                 mat-stroked-button
+                *ngIf="currentUserId === element.uid"
                 (click)="markAsDone(currentWeekRecordId, element.task)"
                 [disabled]="element.status === 'Done'"
               >
@@ -96,6 +97,7 @@
             <div class="action-button-row">
               <button
                 mat-stroked-button
+                *ngIf="currentUserId === element.uid"
                 (click)="markAsDone(previousWeekRecordId, element.task)"
                 [disabled]="element.status === 'Done'"
               >
