@@ -52,6 +52,11 @@ export class WeeklyCleaningService {
         )
     }
 
+    async updateWeeklyRecord(docId: string, updatedData: any): Promise<void> {
+        const docRef = doc(this.firestore, 'weeklyCleaning', docId);
+        return await updateDoc(docRef, updatedData);
+    }
+
     async updateTaskStatus(docId: string, taskName: string) {
         try {
             // 1. Reference the specific document in 'weeklyCleaning'

@@ -26,7 +26,7 @@ import { DatePipe } from '@angular/common';
 })
 export class WeeklyCleaningComponent implements OnInit {
   currentUserId: string | undefined = undefined;
-  
+
   displayedUpcomingAssignedTasksColumns: string[] = ['uid', 'task'];
   displayedAssignedTasksColumns: string[] = ['uid', 'task', 'status', 'action'];
 
@@ -49,7 +49,13 @@ export class WeeklyCleaningComponent implements OnInit {
   ngOnInit(): void {
     this.currentUserId = this.auth.currentUser?.uid;
 
-    this.weeklyCleaningService.getAllRecords().subscribe((records) => {
+    this.weeklyCleaningService.getAllRecords().subscribe(async (records) => {
+      await this.checkAndRotateOldestRecord(records);
+
+      this.dataSourceCurrentWeek.data = [];
+      this.dataSourceUpcomingWeek.data = [];
+      this.dataSourcePreviousWeek.data = [];
+
       const categorizedRecords = this.categorizeFirestoreWeeklyRecords(records);
       categorizedRecords.filter(r => r.category === 'Current Week').map(r => {
         this.dataSourceCurrentWeek.data = r.assignedTasks;
@@ -110,6 +116,73 @@ export class WeeklyCleaningComponent implements OnInit {
 
       return { ...record, category };
     });
+  }
+
+  async checkAndRotateOldestRecord(records: any[]) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const dayOfWeek = today.getDay();
+    const diffToNextMonday = (dayOfWeek === 0 ? 1 : 8) - dayOfWeek;
+    const diffToCurrentMonday = (dayOfWeek === 0 ? -6 : 1) - dayOfWeek;
+
+    const currentMonday = new Date(today);
+    currentMonday.setDate(today.getDate() + diffToCurrentMonday);
+
+    const currentSunday = new Date(currentMonday);
+    currentSunday.setDate(currentMonday.getDate() + 6);
+    currentSunday.setHours(23, 59, 59, 999);
+
+    const upcomingMonday = new Date(today);
+    upcomingMonday.setDate(today.getDate() + diffToNextMonday);
+
+    const upcomingSunday = new Date(upcomingMonday);
+    upcomingSunday.setDate(upcomingMonday.getDate() + 6);
+    upcomingSunday.setHours(23, 59, 59, 999);
+
+    const sortedRecords = [...records].sort((a, b) => a.startDate.seconds - b.startDate.seconds);
+    let oldestRecord = sortedRecords[0];
+
+    const hasUpcomingWeek = records.some(r => {
+      const rStartMs = r.startDate.seconds * 1000;
+      return rStartMs >= upcomingMonday.getTime();
+    });
+
+    const hasCurrentWeek = records.some(r => {
+      const rStartMs = r.startDate.seconds * 1000;
+      return rStartMs >= today.getTime() && rStartMs <= upcomingSunday.getTime();
+    });
+
+    console.log('hasUpcomingWeek:', hasUpcomingWeek, 'hasCurrentWeek:', hasCurrentWeek, 'today:', today);
+
+    if (!hasUpcomingWeek) {
+      if (!hasCurrentWeek) {
+        this.updateWeeklyRecord(oldestRecord, currentMonday, currentSunday);
+        oldestRecord = sortedRecords[1]; // Shift the pointer to the next oldest for the upcoming week rotation
+      }
+      this.updateWeeklyRecord(oldestRecord, upcomingMonday, upcomingSunday);
+    }
+  }
+
+  async updateWeeklyRecord(record: any, monday: Date, sunday: Date) {
+    const resetTasks = (record.assignedTasks || []).map((task: any) => ({
+      task: task.task,
+      uid: task.uid,
+      status: 'Pending' // Reset cleanly for next usage iteration
+    }));
+
+    const rotatedPayload = {
+      startDate: monday,
+      endDate: sunday,
+      assignedTasks: resetTasks
+    };
+
+    try {
+      console.log(`Prepared rotated payload for week:`, record.id, rotatedPayload);
+      await this.weeklyCleaningService.updateWeeklyRecord(record.id, rotatedPayload);
+    } catch (error) {
+      console.error('Failed executing circular shifting rotation:', error);
+    }
   }
 
   async markAsDone(docId: string, taskName: string) {
