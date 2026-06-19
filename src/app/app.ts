@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators'; 
 
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenav } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -14,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { Auth, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { User } from '@angular/fire/auth';
 
 import { AuthService } from './services/auth/auth.service';
@@ -41,11 +42,14 @@ export class App {
   protected readonly title = signal('level-up-roomies');
 
   showNav = false;
+  isHandSet = false;
 
   // true when viewport is handset sized; used to switch sidenav mode
   isHandset$!: import('rxjs').Observable<boolean>;
 
   user$: Observable<User | null>;
+
+  private subscriptions = new Subscription();
 
   constructor(public authService: AuthService,
               private breakpoint: BreakpointObserver) {
@@ -60,6 +64,30 @@ export class App {
       // Hide nav if on login page, otherwise show it
       this.showNav = event.url !== '/login' && event.url !== '/';
     });
+  }
+
+  ngOnInit() {
+    this.subscriptions.add(
+      this.isHandset$.subscribe(matches => {
+        this.isHandSet = matches;
+      })
+    );
+
+    this.subscriptions.add(
+      this.router.events.pipe(
+        filter(event => event instanceof NavigationEnd)
+      ).subscribe((event: any) => {
+        this.showNav = event.url !== '/login' && event.url !== '/';
+      })
+    );
+  }
+
+  drawerToggle(drawer: MatSidenav) {
+    if (this.isHandSet) {
+      if (drawer) {
+        drawer.toggle();
+      }
+    }
   }
 
    async logout() {
