@@ -4,6 +4,7 @@ import { Firestore, collection, collectionData, query, where } from '@angular/fi
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatButtonModule } from '@angular/material/button';
 import { Observable } from 'rxjs';
 
 import { Item } from '../../models/item.model';
@@ -15,7 +16,8 @@ import { GroceryItemDetailSheetComponent } from './grocery-item-detail-sheet/gro
     imports: [
         CommonModule,
         MatListModule,
-        MatIconModule
+        MatIconModule,
+        MatButtonModule 
     ],
     templateUrl: './grocery-list.html',
     styleUrl: './grocery-list.css',
