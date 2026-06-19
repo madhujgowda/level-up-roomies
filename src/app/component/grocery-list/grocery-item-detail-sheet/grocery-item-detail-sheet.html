@@ -1,0 +1,50 @@
+<div class="sheet-container">
+  <div class="sheet-header">
+    <h3 class="primary-text">
+      {{ data.name }}<br />
+      <span class="secondary-text"
+        >Category:
+        <span style="color: var(--mat-sys-primary) !important">{{ data.category }}</span></span
+      >
+    </h3>
+    <button mat-icon-button (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <mat-list>
+    <mat-list-item>
+      <mat-icon matListItemIcon>shopping_cart</mat-icon>
+      <div matListItemTitle class="primary-text">Quantity</div>
+      <div matListItemLine>{{ data.shopping.quantity }}</div>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon matListItemIcon>store</mat-icon>
+      <div matListItemTitle class="primary-text">Preferred Store</div>
+      <div matListItemLine>{{ data.shopping.preferredStore }}</div>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon matListItemIcon>description</mat-icon>
+      <div matListItemTitle class="primary-text">Notes</div>
+      <div matListItemLine>{{ data.shopping.notes }}</div>
+    </mat-list-item>
+  </mat-list>
+
+  <mat-divider></mat-divider>
+  <div *ngIf="data.inventory.showItem">
+    <h4 class="primary-text">Inventory</h4>
+    <mat-list-item>
+      <mat-icon matListItemIcon>shelves</mat-icon>
+      <div matListItemTitle class="primary-text">Stock</div>
+      <div matListItemLine>{{ data.inventory.stock }}</div>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon matListItemIcon>search</mat-icon>
+      <div matListItemTitle class="primary-text">Location</div>
+      <div matListItemLine>{{ data.inventory.location }}</div>
+    </mat-list-item>
+  </div>
+
+  <div class="action-row">
+    <button mat-flat-button color="primary" (click)="close()" class="full-width">Close</button>
+  </div>
+</div>

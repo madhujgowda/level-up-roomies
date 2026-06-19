@@ -1,0 +1,32 @@
+.sheet-container {
+    padding: 16px;
+}
+
+.sheet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.primary-text {
+    color: var(--mat-sys-primary) !important;
+}
+
+.secondary-text {
+    font-size: 0.8em;
+    color: var(--mat-sys-secondary) !important;
+}
+
+.action-row {
+    margin-top: 20px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+h2,
+h3,
+p {
+    font-family: Roboto;
+}

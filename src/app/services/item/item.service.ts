@@ -6,6 +6,7 @@ import { Item } from '../../models/item.model';
 @Injectable({
     providedIn: 'root',
 })
+
 export class ItemService {
     private firestore = inject(Firestore);
 
