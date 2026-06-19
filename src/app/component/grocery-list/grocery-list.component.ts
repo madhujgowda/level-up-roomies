@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
+import { RouterLink } from '@angular/router';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
@@ -15,6 +15,7 @@ import { GroceryItemDetailSheetComponent } from './grocery-item-detail-sheet/gro
     selector: 'app-grocery-list',
     imports: [
         CommonModule,
+        RouterLink, 
         MatListModule,
         MatIconModule,
         MatButtonModule 

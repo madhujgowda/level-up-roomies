@@ -7,6 +7,7 @@ import { HistoryComponent } from './component/history/history.component';
 import { AddCookingComponent } from './component/add-cooking/add-cooking.component';
 import { WeeklyCleaningComponent } from './component/weekly-cleaning/weekly-cleaning.component';
 import { GroceryListComponent } from './component/grocery-list/grocery-list.component';
+import { AddGroceryItemComponent } from './component/grocery-list/add-grocery-item/add-grocery-item.component';
 
 export const routes: Routes = [
     { path: '', component: LoginComponent }, 
@@ -17,6 +18,7 @@ export const routes: Routes = [
     { path: 'history', component: HistoryComponent, canActivate: [authGuard] }, 
     { path: 'weekly-cleaning', component: WeeklyCleaningComponent, canActivate: [authGuard] },
     { path: 'grocery-list', component: GroceryListComponent, canActivate: [authGuard] }, 
+    { path: 'add-grocery-item', component: AddGroceryItemComponent, canActivate: [authGuard] }
 
 
 ];
