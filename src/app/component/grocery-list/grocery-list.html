@@ -1,0 +1,9 @@
+<div class="list-container">
+  <mat-list>
+
+    <mat-list-item *ngFor="let item of items$ | async">      
+      <span matListItemTitle class="item-title">{{ item.name }} <span *ngIf="item.shopping.quantity > 1"> - {{ item.shopping.quantity }}</span></span>
+      <span matListItemLine class="item-notes">{{ item.shopping.notes }}</span>
+    </mat-list-item>
+  </mat-list>
+</div>
