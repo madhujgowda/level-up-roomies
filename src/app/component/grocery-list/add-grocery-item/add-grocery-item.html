@@ -1,1 +1,14 @@
-<p> Grocery </p>
+<p class="section-title">Recommended Items</p>
+
+<mat-chip-listbox multiple #chipList class="mat-mdc-chip-set-stacked">
+  <mat-chip-option *ngFor="let item of items$ | async" style="width: 50%" [value]="item">
+    {{ item.name }}
+  </mat-chip-option>
+</mat-chip-listbox>
+
+<br>
+
+<button mat-fab extended [disabled]="!chipList.value || chipList.value.length === 0" (click)="onAddSelected(chipList.value)">
+  <mat-icon>add</mat-icon>
+  Add to List
+</button>
