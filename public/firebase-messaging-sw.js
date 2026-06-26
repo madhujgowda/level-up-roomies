@@ -1,27 +1,27 @@
-// Import the Firebase scripts required inside a service worker
-importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js');
-importScripts('https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js');
-
-// Initialize the Firebase app inside the service worker
+importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging-compat.js');
 firebase.initializeApp({
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: 'AIzaSyC7sQdkesqEQvl3e2KY8khUe2eDPF-xNGU',
+  authDomain: 'level-up-roomies.firebaseapp.com',
+  projectId: 'level-up-roomies',
+  storageBucket: 'level-up-roomies.firebasestorage.app',
+  messagingSenderId: '655924300985',
+  appId: '1:655924300985:web:790bd8af923e19e290df68',
+  measurementId: 'G-measurement-id',
 });
 
 const messaging = firebase.messaging();
 
-// This handles the notification when your web app is in the background/closed
-messaging.onBackgroundMessage((payload) => {
-  console.log('Background message received: ', payload);
+console.log('Service Worker Loaded Successfully!');
 
-  const notificationTitle = payload.notification.title;
+messaging.onBackgroundMessage(function (payload) {
+  console.log('[firebase-messaging-sw.js] Received background message ', payload);
+  
+  // Use payload data if available, or fall back to defaults
+  const notificationTitle = payload.notification?.title || 'Background Message Title';
   const notificationOptions = {
-    body: payload.notification.body,
-    icon: '/favicon.ico' // Or any icon path you have
+    body: payload.notification?.body || 'Background Message body.',
+    icon: '/favicon.ico', 
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);

@@ -9,6 +9,9 @@
 # Secrets
 src/environments/environment.development.ts
 
+# secret
+public/firebase-messaging-sw.js
+
 # Node
 /node_modules
 npm-debug.log
@@ -48,4 +51,3 @@ Thumbs.db
 src/environment/environment.development.ts
 firestore.rules
 .firebase/hosting.ZGlzdFxsZXZlbC11cC1yb29taWVzXGJyb3dzZXI.cache
-public/firebase-messaging-sw.js

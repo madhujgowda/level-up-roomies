@@ -4,6 +4,10 @@ import { map } from 'rxjs/operators';
 import { RouterOutlet, RouterLink, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators'; 
+import { environment } from '../environments/environment';
+
+import { initializeApp } from 'firebase/app';
+import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -67,6 +71,16 @@ export class App {
   }
 
   ngOnInit() {
+    const app = initializeApp(environment.firebaseConfig);
+    const messaging = getMessaging(app);
+
+    this.requestNotificationPermission(messaging);
+
+    onMessage(messaging, (payload) => {
+      console.log('Foreground message received: ', payload);
+      alert(`New Message: ${payload.notification?.title}\n${payload.notification?.body}`);
+    });
+
     this.subscriptions.add(
       this.isHandset$.subscribe(matches => {
         this.isHandSet = matches;
@@ -80,6 +94,28 @@ export class App {
         this.showNav = event.url !== '/login' && event.url !== '/';
       })
     );
+  }
+
+  requestNotificationPermission(messaging: any) {    
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        // Note: You can find or generate your VAPID key in Project Settings -> Cloud Messaging
+        getToken(messaging, { vapidKey: environment.vapidKey })
+          .then((currentToken) => {
+            if (currentToken) {
+              console.log('🚀 YOUR REGISTRATION TOKEN:');
+              console.log(currentToken); 
+            } else {
+              console.log('No registration token available. Request permission to generate one.');
+            }
+          })
+          .catch((err) => {
+            console.error('An error occurred while retrieving token. ', err);
+          });
+      } else {
+        console.warn('Unable to get permission to notify.');
+      }
+    });
   }
 
   drawerToggle(drawer: MatSidenav) {
