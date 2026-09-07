@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { collection, collectionData, Firestore, where, query, orderBy, limit } from '@angular/fire/firestore';
+import { collection, collectionData, Firestore, where, query, orderBy, limit, updateDoc } from '@angular/fire/firestore';
 import { writeBatch, doc } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { Item } from '../../models/item.model';
@@ -52,12 +52,28 @@ export class ItemService {
                 }
             });
 
-            // 3. Complete the batch payload operation
+            // Complete the batch payload operation
             await batch.commit();
             console.log(`Successfully batch-updated ${selectedItems.length} items!`);
 
         } catch (error) {
             console.error('Failed to execute Firestore batch update:', error);
+            throw error;
+        }
+    }
+
+    async removeItemFromGroceryList(item: Item) {
+        if (!item || !item.id) return;
+
+        const itemDocRef = doc(this.firestore, 'items', item.id);
+
+        try {
+            await updateDoc(itemDocRef, {
+                'shopping.needed': false
+            });
+            console.log(`Successfully removed item from  grocery list: ${item.id}`);
+        } catch (error) {
+            console.error('Failed to remove item from grocery list:', error);
             throw error;
         }
     }

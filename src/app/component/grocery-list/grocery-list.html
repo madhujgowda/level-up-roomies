@@ -2,13 +2,16 @@
   <h3 class="primary-text">Grocery List</h3>
   <mat-list class="compact-grocery-list">
     <mat-list-item *ngFor="let item of items$ | async">
-      <div (click)="onItemSelect(item)">
-        <span matListItemTitle class="item-title"
-          >{{ item.name }}
-          <span *ngIf="item.shopping.quantity > 1"> - {{ item.shopping.quantity }}</span></span
-        >
-        <span matListItemLine class="item-notes">{{ item.shopping.notes }}</span>
-        <mat-divider></mat-divider>
+      <div class="grocery-item-row" fxLayout="row" fxLayoutAlign="space-between center"
+        style="width: 100%; display: flex; align-items: center; justify-content: space-between;">
+        <div (click)="onItemSelect(item)" style="flex-grow: 1; cursor: pointer;">
+          <span matListItemTitle class="item-title">{{ item.name }}
+            <span *ngIf="item.shopping.quantity > 1"> - {{ item.shopping.quantity }}</span></span>
+          <span matListItemLine class="item-notes">{{ item.shopping.notes }}</span>
+          <mat-divider></mat-divider>
+        </div>
+        <mat-checkbox [checked]="item.shopping.needed" (change)="onItemToggle(item, $event)">
+        </mat-checkbox>
       </div>
     </mat-list-item>
   </mat-list>
