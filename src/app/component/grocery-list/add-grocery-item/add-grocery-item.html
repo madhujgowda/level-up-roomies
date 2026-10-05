@@ -1,7 +1,21 @@
-<p class="section-title">Recommended Items</p>
+<mat-form-field appearance="outline" class="search-field" style="width: 100%;">
+  <mat-label>Search or add item...</mat-label>
+  <input matInput [(ngModel)]="searchQuery" (input)="onSearchChange()" placeholder="e.g. Chicken">
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
+
+<!-- New Item Prompt (Appears below search if query doesn't match an existing item) -->
+<div *ngIf="searchQuery.trim() && !exactMatchExists" class="new-item-row" style="margin-bottom: 16px;">
+  <button mat-stroked-button color="primary" (click)="addNewItem()" style="width: 100%; justify-content: flex-start;">
+    <mat-icon>add</mat-icon>
+    {{ searchQuery }}
+  </button>
+</div>
+
+<p class="section-title">{{ searchQuery ? 'Matching Items' : 'Recommended Items' }}</p>
 
 <mat-chip-listbox multiple #chipList class="mat-mdc-chip-set-stacked">
-  <mat-chip-option *ngFor="let item of items$ | async" style="width: 50%" [value]="item">
+  <mat-chip-option *ngFor="let item of (filteredItems$ | async)" style="width: 100%" [value]="item">
     {{ item.name }}
   </mat-chip-option>
 </mat-chip-listbox>

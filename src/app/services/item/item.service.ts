@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { collection, collectionData, Firestore, where, query, orderBy, limit, updateDoc } from '@angular/fire/firestore';
+import { collection, collectionData, Firestore, where, query, orderBy, limit, updateDoc, addDoc } from '@angular/fire/firestore';
 import { writeBatch, doc } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 import { Item } from '../../models/item.model';
@@ -10,6 +10,12 @@ import { Item } from '../../models/item.model';
 
 export class ItemService {
     private firestore = inject(Firestore);
+
+    // Fetch all items to support live search filtering
+    getAllItems(): Observable<Item[]> {
+        const itemsCollection = collection(this.firestore, 'items');
+        return collectionData(itemsCollection, { idField: 'id' }) as Observable<Item[]>;
+    }
 
     getGroceryItems(): Observable<Item[]> {
         const itemsCollection = collection(this.firestore, 'items');
@@ -22,19 +28,30 @@ export class ItemService {
         return collectionData(neededItemsQuery, { idField: 'id' }) as Observable<Item[]>;
     }
 
-    getTopRecommendedGroceryItems(): Observable<Item[]> {
+    // Create a brand-new item not in the database yet
+    async addNewItemToGroceryList(name: string) {
         const itemsCollection = collection(this.firestore, 'items');
-
-        const recommendationsQuery = query(
-            itemsCollection,
-            where('shopping.needed', '==', false),
-            orderBy('shopping.lastPurchasedDate', 'desc'),
-            limit(10)
-        );
-        return collectionData(recommendationsQuery, { idField: 'id' }) as Observable<Item[]>;
+        try {
+            await addDoc(itemsCollection, {
+                name: name.trim(),
+                category: 'General',
+                inventory: { showItem: true, stock: 0, location: 'Pantry' },
+                shopping: {
+                    needed: true,
+                    quantity: 1,
+                    lastPurchasedDate: new Date(),
+                    preferredStore: '',
+                    notes: ''
+                }
+            });
+            console.log(`Successfully created and added new item: ${name}`);
+        } catch (error) {
+            console.error('Failed to create new item:', error);
+            throw error;
+        }
     }
 
-    async addToGroceryList(selectedItems: any[] | undefined) {
+    async addExistingItemToGroceryList(selectedItems: any[] | undefined) {
         if (!selectedItems || selectedItems.length === 0) return;
 
         const batch = writeBatch(this.firestore);
@@ -69,7 +86,8 @@ export class ItemService {
 
         try {
             await updateDoc(itemDocRef, {
-                'shopping.needed': false
+                'shopping.needed': false,
+                'shopping.lastPurchasedDate': new Date()
             });
             console.log(`Successfully removed item from  grocery list: ${item.id}`);
         } catch (error) {
