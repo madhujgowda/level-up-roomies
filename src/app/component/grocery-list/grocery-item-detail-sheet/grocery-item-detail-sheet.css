@@ -1,5 +1,6 @@
 .sheet-container {
     padding: 16px;
+    overflow-y: auto;
 }
 
 .sheet-header {
@@ -29,4 +30,80 @@ h2,
 h3,
 p {
     font-family: Roboto;
+}
+
+.category-trigger {
+    color: var(--mat-sys-primary) !important;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+}
+
+.dropdown-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin-left: 2px;
+}
+
+/* Quantity Button Fixes */
+.quantity-list-item {
+    height: auto !important;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.quantity-control-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.qty-btn {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    padding: 0 !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 40px;
+    line-height: normal;
+}
+
+.qty-display {
+    font-weight: 500;
+    min-width: 16px;
+    text-align: center;
+}
+
+.store-line {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.store-dropdown-icon {
+    font-size: 18px;
+    width: 18px;
+    padding-top: 5px;
+    margin-left: 4px;
+}
+
+/* Notes Textarea Fixes */
+.notes-list-item {
+    height: auto !important;
+}
+
+.notes-textarea {
+    width: 80%;
+    margin-top: 10px;
+    resize: vertical;
+    background: transparent;
+    border: 1px solid var(--mat-sys-outline-variant, #ccc);
+    border-radius: 4px;
+    color: inherit;
+    font-family: inherit;
+    outline: none;
 }

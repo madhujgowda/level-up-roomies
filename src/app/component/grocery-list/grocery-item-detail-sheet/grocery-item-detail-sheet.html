@@ -2,35 +2,69 @@
   <div class="sheet-header">
     <h3 class="primary-text">
       {{ data.name }}<br />
-      <span class="secondary-text"
-        >Category:
-        <span style="color: var(--mat-sys-primary) !important">{{ data.category }}</span></span
-      >
+      <span class="secondary-text">Category:
+        <span class="category-trigger" [matMenuTriggerFor]="categoryMenu">
+          {{ data.category }} <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+        </span>
+      </span>
     </h3>
     <button mat-icon-button (click)="close()">
       <mat-icon>close</mat-icon>
     </button>
   </div>
+
+  <!-- Category Selection Menu -->
+  <mat-menu #categoryMenu="matMenu">
+    <button mat-menu-item *ngFor="let category of categories" (click)="selectCategory(category)">
+      {{ category }}
+    </button>
+  </mat-menu>
+
   <mat-list>
-    <mat-list-item>
+    <!-- Quantity with +/- buttons -->
+    <mat-list-item class="quantity-list-item">
       <mat-icon matListItemIcon>shopping_cart</mat-icon>
       <div matListItemTitle class="primary-text">Quantity</div>
-      <div matListItemLine>{{ data.shopping.quantity }}</div>
+      <div matListItemLine class="quantity-control-row">
+        <button mat-stroked-button type="button" class="qty-btn" (click)="decrementQuantity()">-</button>
+        <span class="qty-display">{{ data.shopping.quantity || 1 }}</span>
+        <button mat-stroked-button type="button" class="qty-btn" (click)="incrementQuantity()">+</button>
+      </div>
     </mat-list-item>
-    <mat-list-item>
+
+    <!-- Preferred Store with Dropdown -->
+    <mat-list-item class="store-item">
       <mat-icon matListItemIcon>store</mat-icon>
       <div matListItemTitle class="primary-text">Preferred Store</div>
-      <div matListItemLine>{{ data.shopping.preferredStore }}</div>
+      <div matListItemLine class="store-line" [matMenuTriggerFor]="storeMenu">
+        {{ data.shopping.preferredStore || 'None' }}
+        <mat-icon class="store-dropdown-icon">arrow_drop_down</mat-icon>
+      </div>
     </mat-list-item>
-    <mat-list-item>
+
+    <!-- Preferred Store Menu -->
+    <mat-menu #storeMenu="matMenu">
+      <button mat-menu-item (click)="selectStore('')">None</button>
+      <button mat-menu-item *ngFor="let store of preferredStores" (click)="selectStore(store)">
+        {{ store }}
+      </button>
+    </mat-menu>
+
+    <!-- Notes Input Box -->
+    <mat-list-item class="notes-list-item">
       <mat-icon matListItemIcon>description</mat-icon>
       <div matListItemTitle class="primary-text">Notes</div>
-      <div matListItemLine>{{ data.shopping.notes }}</div>
+      <div matListItemLine class="notes-line">
+        <textarea matInput [(ngModel)]="data.shopping.notes" (blur)="updateField()"
+          placeholder="Add specific notes here..." rows="3" class="notes-textarea">
+        </textarea>
+      </div>
     </mat-list-item>
   </mat-list>
 
   <mat-divider></mat-divider>
-  <div *ngIf="data.inventory.showItem">
+
+  <div *ngIf="data.inventory?.showItem" class="inventory-container">
     <h4 class="primary-text">Inventory</h4>
     <mat-list-item>
       <mat-icon matListItemIcon>shelves</mat-icon>

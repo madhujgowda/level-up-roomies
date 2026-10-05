@@ -95,4 +95,23 @@ export class ItemService {
             throw error;
         }
     }
+
+    async updateItemDetails(item: Item) {
+        if (!item || !item.id) return;
+
+        const itemDocRef = doc(this.firestore, 'items', item.id);
+
+        try {
+            await updateDoc(itemDocRef, {
+                category: item.category,
+                'shopping.quantity': item.shopping.quantity,
+                'shopping.preferredStore': item.shopping.preferredStore,
+                'shopping.notes': item.shopping.notes
+            });
+            console.log(`Successfully updated item details for: ${item.id}`);
+        } catch (error) {
+            console.error('Failed to update item details:', error);
+            throw error;
+        }
+    }
 }
